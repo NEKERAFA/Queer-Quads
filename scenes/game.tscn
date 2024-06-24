@@ -1,0 +1,195 @@
+[gd_scene load_steps=14 format=3 uid="uid://cfoah28gmx3l5"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_evbr1"]
+[ext_resource type="Texture2D" uid="uid://2envimydba8a" path="res://textures/clip-bg.png" id="1_waxni"]
+[ext_resource type="Texture2D" uid="uid://osmr35o23w4x" path="res://textures/bg-tile.png" id="2_kv8s8"]
+[ext_resource type="Script" path="res://scripts/game_state.gd" id="4_1wwy0"]
+[ext_resource type="FontFile" uid="uid://blyyx0r4gcybk" path="res://fonts/Nunito/Nunito-Bold.ttf" id="4_le2l8"]
+[ext_resource type="FontFile" uid="uid://bjw65425md5jc" path="res://fonts/Nunito/Nunito-Black.ttf" id="5_nsqgh"]
+[ext_resource type="AudioStream" uid="uid://c1ilm03hl1vri" path="res://sounds/Hypnotic Puzzle.mp3" id="6_mdnfx"]
+[ext_resource type="AudioStream" uid="uid://o5pos8kn0bdk" path="res://sounds/lowDown.ogg" id="7_2e1rg"]
+[ext_resource type="AudioStream" uid="uid://g8xl4awffl7s" path="res://sounds/phaserUp5.ogg" id="8_rla4m"]
+
+[sub_resource type="Gradient" id="Gradient_lsvsi"]
+interpolation_mode = 2
+colors = PackedColorArray(0.165, 0.33, 0.66, 1, 0.84, 0.252, 0.5558, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gvn88"]
+gradient = SubResource("Gradient_lsvsi")
+fill_from = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ynaei"]
+distance = -384.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ru0i7"]
+size = Vector2(1152, 48)
+
+[node name="Game" type="Node"]
+script = ExtResource("1_evbr1")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+follow_viewport_enabled = true
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_gvn88")
+
+[node name="BackgroundClip" type="TextureRect" parent="Background"]
+clip_children = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -384.0
+offset_right = 576.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_waxni")
+
+[node name="Tiles" type="TextureRect" parent="Background/BackgroundClip"]
+custom_minimum_size = Vector2(1536, 1024)
+layout_mode = 1
+offset_right = 1152.0
+offset_bottom = 768.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_kv8s8")
+stretch_mode = 1
+
+[node name="Elements" type="Node2D" parent="."]
+position = Vector2(384, 156)
+
+[node name="GameArea" type="StaticBody2D" parent="."]
+position = Vector2(960, 540)
+
+[node name="Ground" type="CollisionShape2D" parent="GameArea"]
+shape = SubResource("WorldBoundaryShape2D_ynaei")
+one_way_collision_margin = 48.0
+
+[node name="NextPosition" type="Marker2D" parent="."]
+position = Vector2(192, 260)
+
+[node name="GameoverArea" type="Area2D" parent="."]
+position = Vector2(960, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameoverArea"]
+shape = SubResource("RectangleShape2D_ru0i7")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="NextBlockHeader" type="Label" parent="UI"]
+custom_minimum_size = Vector2(384, 48)
+offset_top = 204.0
+offset_right = 384.0
+offset_bottom = 252.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("4_le2l8")
+theme_override_font_sizes/font_size = 32
+text = "Next block:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PointsHeader" type="Label" parent="UI"]
+custom_minimum_size = Vector2(384, 48)
+offset_left = 1536.0
+offset_top = 204.0
+offset_right = 1920.0
+offset_bottom = 252.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("4_le2l8")
+theme_override_font_sizes/font_size = 32
+text = "Points:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Points" type="Label" parent="UI"]
+custom_minimum_size = Vector2(384, 48)
+offset_left = 1536.0
+offset_top = 252.0
+offset_right = 1920.0
+offset_bottom = 380.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("4_le2l8")
+theme_override_font_sizes/font_size = 48
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameoverContainer" type="VBoxContainer" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/GameoverContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 8
+theme_override_constants/outline_size = 8
+theme_override_fonts/normal_font = ExtResource("5_nsqgh")
+theme_override_font_sizes/normal_font_size = 96
+bbcode_enabled = true
+text = "[center][rainbow]Gameover![/rainbow][/center]"
+fit_content = true
+
+[node name="AnyKeyLabel" type="Label" parent="UI/GameoverContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("4_le2l8")
+theme_override_font_sizes/font_size = 28
+text = "Press any key to restart"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameState" type="Node" parent="." node_paths=PackedStringArray("elements")]
+script = ExtResource("4_1wwy0")
+elements = NodePath("../Elements")
+
+[node name="PointsPosition" type="Marker2D" parent="."]
+position = Vector2(1728, 316)
+
+[node name="BackgroundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_mdnfx")
+volume_db = -10.0
+autoplay = true
+mix_target = 2
+
+[node name="DestroyAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_2e1rg")
+volume_db = -10.0
+
+[node name="MoveAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_rla4m")
+volume_db = -10.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="GameoverArea" to="." method="_on_gameover_area_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://sjcm0f8t71gk"]
+
+[ext_resource type="PackedScene" uid="uid://cha18wxks7417" path="res://elements/tile.tscn" id="1_17jd3"]
+[ext_resource type="Script" path="res://elements/tiles/line_h.gd" id="1_ina3b"]
+
+[node name="LineHorizontal" type="Node2D"]
+script = ExtResource("1_ina3b")
+color_left = null
+color_right = null
+
+[node name="TileLeft" parent="." instance=ExtResource("1_17jd3")]
+
+[node name="TileRight" parent="." instance=ExtResource("1_17jd3")]
+position = Vector2(96, 0)
+
+[connection signal="destroy" from="TileLeft" to="." method="_on_destroy_tile_left"]
+[connection signal="destroy" from="TileRight" to="." method="_on_destroy_tile_right"]

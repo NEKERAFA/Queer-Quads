@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7tvv0mhuyaae"]
+
+[ext_resource type="Script" path="res://elements/tiles/achillean_trans.gd" id="1_ybwlh"]
+[ext_resource type="PackedScene" uid="uid://cha18wxks7417" path="res://elements/tile.tscn" id="2_2wswy"]
+
+[node name="AchilleanTrans" type="Node2D"]
+script = ExtResource("1_ybwlh")
+
+[node name="Tile" parent="." instance=ExtResource("2_2wswy")]
+tile_color = Color(0.356863, 0.807843, 0.980392, 1)
+
+[node name="Tile2" parent="." instance=ExtResource("2_2wswy")]
+position = Vector2(96, 0)
+tile_color = Color(0.9, 0.9, 0.9, 1)
+
+[node name="Tile3" parent="." instance=ExtResource("2_2wswy")]
+position = Vector2(192, 0)
+tile_color = Color(0.356863, 0.807843, 0.980392, 1)
+
+[node name="Tile4" parent="." instance=ExtResource("2_2wswy")]
+position = Vector2(96, 96)
+tile_color = Color(0.960784, 0.662745, 0.721569, 1)
+
+[node name="Tile5" parent="." instance=ExtResource("2_2wswy")]
+position = Vector2(96, 192)
+tile_color = Color(0.356863, 0.807843, 0.980392, 1)
+
+[connection signal="destroy" from="Tile" to="." method="_on_tile_destroy"]
+[connection signal="destroy" from="Tile2" to="." method="_on_tile_destroy"]
+[connection signal="destroy" from="Tile3" to="." method="_on_tile_destroy"]
+[connection signal="destroy" from="Tile4" to="." method="_on_tile_destroy"]
+[connection signal="destroy" from="Tile5" to="." method="_on_tile_destroy"]
